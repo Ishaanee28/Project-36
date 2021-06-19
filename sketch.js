@@ -30,12 +30,12 @@ function setup() {
   //create feed the dog button here
   feedTheDog=createButton("Feed The Dog");
   feedTheDog.position(650,95);
-  feedTheDog.mousePressed(feedTheDog);
+  feedTheDog.mousePressed(feedDog);
 
   addFood=createButton("Add Food");
   addFood.position(800,95);
-  addFood.mousePressed(addFood);
-
+  addFood.mousePressed(addFoods);
+//here add food is the button name and add foods is the function name
 }
 
 function draw() {
@@ -49,10 +49,12 @@ function draw() {
   })
   //write code to display text lastFed time here
 //add hint 2
-if(lastFed>=0){
+fill("black")
+if(lastFed>=12){
+  text("Last Fed "+lastFed%12+"PM",350,30);
 }else if(lastFed==0){
   text("Last Feed : 12AM",350,30);
-}else{
+}else{text("Last Fed "+lastFed+"AM",350,30);
 }
  
   drawSprites();
@@ -75,6 +77,11 @@ function feedDog(){
     foodObj.updateFoodStock(food_stock_val -1);
   
   }
+  database.ref("/").update({
+    Food:foodObj.getFoodStock(),
+    fedTime:hour()
+  })
+}
 
 
 //function to add food in stock
@@ -84,4 +91,4 @@ function addFoods(){
     Food:foodS
   })
 }
-}
+
